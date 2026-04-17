@@ -484,3 +484,7 @@ $RECYCLE.BIN/
 **/bin*/
 **/obj/
 .vscode/
+
+Roshetta.API.csproj.lscache
+Roshetta.BLL.csproj.lscache
+Roshetta.DAL.csproj.lscache
