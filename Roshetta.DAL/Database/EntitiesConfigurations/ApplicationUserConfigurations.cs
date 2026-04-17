@@ -13,5 +13,6 @@
             builder.Property(x => x.Image)
                 .HasMaxLength(256);
         }
+
     }
 }

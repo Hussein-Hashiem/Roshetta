@@ -21,6 +21,13 @@ namespace Roshetta.DAL.Database
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Visit>()
+            .HasOne(v => v.Patient)
+            .WithMany(p => p.Visits)
+            .HasForeignKey(v => v.PatientId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }
