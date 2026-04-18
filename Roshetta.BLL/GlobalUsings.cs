@@ -1,1 +1,15 @@
 global using Roshetta.DAL.Enums;
+global using FluentValidation;
+global using Microsoft.Extensions.DependencyInjection;
+global using Roshetta.BLL.Service.Abstraction;
+global using Roshetta.BLL.Contract.Authentication;
+global using Microsoft.IdentityModel.Tokens;
+global using Roshetta.DAL.Entities;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Text;
+global using Microsoft.AspNetCore.Identity;
+global using Roshetta.BLL.Authentication;
+global using Roshetta.BLL.Abstraction;
+global using Roshetta.BLL.Errors;
+

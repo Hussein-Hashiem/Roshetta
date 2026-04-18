@@ -1,0 +1,7 @@
+﻿namespace Roshetta.BLL.Contract.Authentication
+{
+    public record LoginRequestDto(
+        string Email,
+        string Password
+    );
+}
