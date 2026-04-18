@@ -1,0 +1,49 @@
+namespace Roshetta.DAL.Repo.Implementation
+{
+    public class VisitRepo : IVisitRepo
+    {
+        private readonly ApplicationDbContext _dbContext;
+
+        public VisitRepo(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task AddAsync(Visit visit, CancellationToken cancellationToken)
+        {
+            await _dbContext.Visits.AddAsync(visit, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task DeleteAsync(int visitId, CancellationToken cancellationToken = default)
+        {
+            await _dbContext.Visits
+                .Where(v => v.Id == visitId)
+                .ExecuteUpdateAsync(setter =>
+                    setter.SetProperty(r => r.IsDeleted, true)
+                );
+        }
+
+        public IQueryable<Visit> GetAll()
+        {
+            return _dbContext.Visits
+                .Where(v => !v.IsDeleted)
+                .AsNoTracking();
+        }
+
+        public IQueryable<Visit> GetById(int visitId)
+        {
+            return _dbContext.Visits
+                .Where(v => v.Id == visitId && !v.IsDeleted)
+                .AsNoTracking();
+        }
+
+        public async Task UpdateAsync(Visit visit, CancellationToken cancelToken)
+        {
+            await _dbContext.Visits
+                    .Where(v => v.Id == visit.Id)
+                    .ExecuteUpdateAsync(setter =>
+                        setter.SetProperty(f => f.Status, visit.Status));
+        }
+    }
+}
