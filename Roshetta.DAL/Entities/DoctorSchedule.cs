@@ -7,6 +7,7 @@
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public int MaxVisit { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public int DoctorId { get; set; }
         public Doctor Doctor { get; set; } = default!;
     }
