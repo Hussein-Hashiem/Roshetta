@@ -8,12 +8,13 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
 
-        builder.Services.AddDependencies(builder.Configuration);
 
         builder.Configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
+
+        builder.Services.AddDependencies(builder.Configuration);
 
         var app = builder.Build();
 

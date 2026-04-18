@@ -1,5 +1,3 @@
-
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Roshetta.BLL.Authentication;
@@ -18,7 +16,7 @@ namespace Roshetta.API
             services.AddOpenApi();
             services.AddValidationConfig()
                     .AddDependenciesConfig()
-                    .AddAuthConfig(configuration); 
+                    .AddAuthConfig(configuration);
 
             services.AddCors(options =>
                 options.AddPolicy("AllowAll", builder =>
@@ -33,7 +31,7 @@ namespace Roshetta.API
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-            
+
 
             services.AddHttpContextAccessor();
             services.AddExceptionHandler<GlobaExceptionHandler>();
@@ -91,10 +89,10 @@ namespace Roshetta.API
 
             services.Configure<IdentityOptions>(options =>
             {
-                options.Password.RequireDigit = false; 
-                options.Password.RequiredLength = 8;   
-                options.Password.RequireNonAlphanumeric = false; 
-                options.Password.RequireUppercase = false; 
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             });
 
