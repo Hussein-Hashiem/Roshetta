@@ -12,4 +12,6 @@ global using Microsoft.AspNetCore.Identity;
 global using Roshetta.BLL.Authentication;
 global using Roshetta.BLL.Abstraction;
 global using Roshetta.BLL.Errors;
+global using Microsoft.AspNetCore.Identity.Data;
+global using Microsoft.EntityFrameworkCore;
 

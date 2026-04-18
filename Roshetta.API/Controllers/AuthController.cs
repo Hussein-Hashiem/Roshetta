@@ -1,6 +1,6 @@
 ﻿namespace Roshetta.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -17,5 +17,22 @@
 
             return authResult!.IsSuccess ? Ok(authResult.Value) : authResult.ToProblem();
         }
+
+        [HttpPost("doctor-registration")]
+        public async Task<IActionResult> DoctorRegistration(RegisterRequestDto request, CancellationToken cancellationToken)
+        {
+            var result = await _authService.RegisterDoctorAsync(request, cancellationToken);
+
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
+
+        [HttpPost("patient-registration")]
+        public async Task<IActionResult> PatientRegistration(RegisterRequestDto request, CancellationToken cancellationToken)
+        {
+            var result = await _authService.RegisterPatientAsync(request, cancellationToken);
+
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
+
     }
 }

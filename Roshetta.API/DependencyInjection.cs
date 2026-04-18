@@ -3,6 +3,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Roshetta.BLL.Authentication;
+using Roshetta.DAL.Repo.Abstraction;
+using Roshetta.DAL.Repo.Implementation;
 using System.Text;
 
 namespace Roshetta.API
@@ -43,7 +45,15 @@ namespace Roshetta.API
         public static IServiceCollection AddDependenciesConfig(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
-            
+
+            #region Repo
+            services.AddScoped<IPatientRepo, PatientRepo>();
+
+            #endregion
+
+            #region Service
+
+            #endregion
 
             return services;
         }
@@ -78,6 +88,15 @@ namespace Roshetta.API
                 };
             });
 
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false; 
+                options.Password.RequiredLength = 8;   
+                options.Password.RequireNonAlphanumeric = false; 
+                options.Password.RequireUppercase = false; 
+                options.Password.RequireLowercase = false;
+            });
 
             return services;
         }
