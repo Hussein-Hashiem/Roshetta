@@ -4,19 +4,19 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
 
         builder.Services.AddControllers();
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
 
         builder.Services.AddDependencies(builder.Configuration);
 
-
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -30,17 +30,12 @@ public class Program
 
         app.MapControllers();
 
-        
-
         app.UseHttpsRedirection();
         app.UseCors("AllowAll");
 
-        //app.UseAuthentication();
         app.UseAuthorization();
 
-
         app.MapControllers();
-
 
         app.MapStaticAssets();
 

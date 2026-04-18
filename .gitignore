@@ -489,3 +489,5 @@ Roshetta.API.csproj.lscache
 Roshetta.BLL.csproj.lscache
 Roshetta.DAL.csproj.lscache
 Migrations
+
+appsettings.Local.json
