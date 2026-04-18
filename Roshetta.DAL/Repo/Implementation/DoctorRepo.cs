@@ -14,5 +14,12 @@
             await _context.Doctors.AddAsync(doctor);
             await _context.SaveChangesAsync();
         }
+
+        public IQueryable<Doctor> GetDoctorByUserId(string userId)
+        {
+            return _context.Doctors
+                .Where(v => v.UserId == userId && !v.IsDeleted)
+                .AsNoTracking();
+        }
     }
 }

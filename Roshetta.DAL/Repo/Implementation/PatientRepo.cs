@@ -16,5 +16,12 @@ namespace Roshetta.DAL.Repo.Implementation
             await _context.Patients.AddAsync(patient);
             await _context.SaveChangesAsync();
         }
+
+        public IQueryable<Patient> GetPatientByUserId(string userId)
+        {
+            return _context.Patients
+                .Where(v => v.UserId == userId && !v.IsDeleted)
+                .AsNoTracking();
+        }
     }
 }

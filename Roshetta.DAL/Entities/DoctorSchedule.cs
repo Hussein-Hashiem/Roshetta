@@ -3,7 +3,7 @@
     public class DoctorSchedule
     {
         public int Id { get; set; }
-        public DateOnly Date { get; set; }
+        public string Day { get; set; } = string.Empty;
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public int MaxVisit { get; set; }

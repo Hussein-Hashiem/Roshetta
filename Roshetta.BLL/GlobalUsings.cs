@@ -15,3 +15,4 @@ global using Roshetta.BLL.Errors;
 global using Microsoft.AspNetCore.Identity.Data;
 global using Microsoft.EntityFrameworkCore;
 global using Roshetta.BLL.Contract.Visit;
+global using Roshetta.DAL.Repo.Abstraction;
