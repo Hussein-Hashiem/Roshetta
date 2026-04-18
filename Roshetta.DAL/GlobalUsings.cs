@@ -5,5 +5,6 @@ global using Roshetta.DAL.Entities;
 global using Roshetta.DAL.Enums;
 global using Roshetta.DAL.Repo.Abstraction;
 global using Roshetta.DAL.Database;
+global using Roshetta.DAL.Abstraction;
 
 
