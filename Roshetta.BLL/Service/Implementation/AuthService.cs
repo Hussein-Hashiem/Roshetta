@@ -40,7 +40,7 @@ namespace Roshetta.BLL.Service.Implementation
             var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles);
 
             // If all Success 
-            return Result.Success(new AuthResponseDto(user.Id, user.Email, user.Name, token, userRoles.FirstOrDefault()!, expiresIn));
+            return Result.Success(new AuthResponseDto(user.Id, user.Email, user.Name, token, userRoles.FirstOrDefault()!, user.Gender.ToString(), expiresIn));
         }
 
         public async Task<Result<AuthResponseDto>> RegisterDoctorAsync(RegisterRequestDto request, CancellationToken cancellationToken = default)
@@ -58,6 +58,7 @@ namespace Roshetta.BLL.Service.Implementation
                 EmailConfirmed = true,
                 PhoneNumber = request.PhoneNumber,
                 DateOfBirth = request.DateOfBirth,
+                Gender = request.Gender.ToUpper() == "MALE" ? Gender.Male: Gender.Female
             };
             var result = await _userManager.CreateAsync(user, request.Password);
 
@@ -72,7 +73,7 @@ namespace Roshetta.BLL.Service.Implementation
                 // Generate JWT 
                 var (token, expiresIn) = _jwtProvider.GenerateToken(user, [DefaultRoles.Doctor]);
 
-                return Result.Success(new AuthResponseDto(user.Id, user.Email, user.Name, token, DefaultRoles.Doctor, expiresIn));
+                return Result.Success(new AuthResponseDto(user.Id, user.Email, user.Name, token, DefaultRoles.Doctor, user.Gender.ToString(), expiresIn));
             }
 
             var error = result.Errors.First();
@@ -94,6 +95,7 @@ namespace Roshetta.BLL.Service.Implementation
                 EmailConfirmed = true,
                 PhoneNumber = request.PhoneNumber,
                 DateOfBirth = request.DateOfBirth,
+                Gender = request.Gender.ToUpper() == "MALE" ? Gender.Male : Gender.Female
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -108,7 +110,7 @@ namespace Roshetta.BLL.Service.Implementation
                 // Generate JWT 
                 var (token, expiresIn) = _jwtProvider.GenerateToken(user, [DefaultRoles.Patient]);
 
-                return Result.Success(new AuthResponseDto(user.Id, user.Email, user.Name, token, DefaultRoles.Patient, expiresIn));
+                return Result.Success(new AuthResponseDto(user.Id, user.Email, user.Name, token, DefaultRoles.Patient, user.Gender.ToString(), expiresIn));
             }
 
             var error = result.Errors.First();

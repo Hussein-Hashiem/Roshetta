@@ -14,6 +14,9 @@ namespace Roshetta.DAL.Database.EntitiesConfigurations
             builder.Property(x => x.Image)
                 .HasMaxLength(256);
 
+            builder.Property(x => x.Gender)
+                .HasConversion<string>();
+
             builder.HasData( new ApplicationUser
             {
                 Id = DefaultUsers.AdminId,
