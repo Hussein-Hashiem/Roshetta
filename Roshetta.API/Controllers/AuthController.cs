@@ -10,7 +10,7 @@
             _authService = authService;
         }
 
-        [HttpPost("")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDto request, CancellationToken cancellationToken)
         {
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);

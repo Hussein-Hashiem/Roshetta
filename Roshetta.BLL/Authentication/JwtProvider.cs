@@ -1,14 +1,17 @@
-﻿namespace Roshetta.BLL.Authentication
+﻿using System.Text.Json;
+
+namespace Roshetta.BLL.Authentication
 {
     public class JwtProvider : IJwtProvider
     {
-        public (string token, int expiresIn) GenerateToken(ApplicationUser user)
+        public (string token, int expiresIn) GenerateToken(ApplicationUser user, IEnumerable<string> roles)
         {
             Claim[] claims = [
             new (JwtRegisteredClaimNames.Sub, user.Id),
             new (JwtRegisteredClaimNames.Email, user.Email!),
             new (JwtRegisteredClaimNames.GivenName, user.Name),
-            new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new (nameof(roles), JsonSerializer.Serialize(roles), JsonClaimValueTypes.JsonArray),
             ];
 
             var symmeticSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KTVcuuOTiQkGaFkwtoUe7BKR8rrE7CKo"));

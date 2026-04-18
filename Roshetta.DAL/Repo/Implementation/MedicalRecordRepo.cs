@@ -39,6 +39,7 @@ namespace Roshetta.DAL.Repo.Implementation
                 .SetProperty(m => m.Diagnosis, medicalRecord.Diagnosis)
                 .SetProperty(m => m.Prescription, medicalRecord.Prescription)
                 .SetProperty(m => m.Notes, medicalRecord.Notes));
+            return 
         }
     }
 }

@@ -5,6 +5,7 @@
         string Password,
         string Name,
         string PhoneNumber,
-        DateOnly DateOfBirth
+        DateOnly DateOfBirth,
+        string Gender
     );
 }
