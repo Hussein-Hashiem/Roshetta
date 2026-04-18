@@ -35,7 +35,10 @@ namespace Roshetta.DAL.Repo.Implementation
 
         public Task UpdateSync(MedicalRecord medicalRecord, CancellationToken cancellationToken)
         {
-            return 
+            return _context.MedicalRecords.Where(m => m.Id == medicalRecord.Id).ExecuteUpdateAsync(setter => setter
+                .SetProperty(m => m.Diagnosis, medicalRecord.Diagnosis)
+                .SetProperty(m => m.Prescription, medicalRecord.Prescription)
+                .SetProperty(m => m.Notes, medicalRecord.Notes));
         }
     }
 }
