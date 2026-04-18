@@ -22,6 +22,11 @@ namespace Roshetta.DAL.Repo.Implementation
             return _context.DoctorSchedules.Where(d => d.Id == id).AsNoTracking();
         }
 
+        public int GetMaxVisit(string day)
+        {
+            return _context.DoctorSchedules.FirstOrDefault(d => d.Day == day)!.MaxVisit;
+        }
+
         public async Task UpdateAsync(DoctorSchedule doctorSchedule, CancellationToken cancellationToken)
         {
             await _context.DoctorSchedules.Where(d => d.Id == doctorSchedule.Id)
