@@ -46,7 +46,7 @@ namespace Roshetta.API
 
             #region Repo
             services.AddScoped<IPatientRepo, PatientRepo>();
-
+            services.AddScoped<IDoctorRepo, DoctorRepo>();
             #endregion
 
             #region Service
@@ -61,7 +61,7 @@ namespace Roshetta.API
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
             services
-            .AddIdentity<ApplicationUser, IdentityRole>()
+            .AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 

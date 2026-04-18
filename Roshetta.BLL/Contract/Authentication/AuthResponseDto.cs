@@ -5,6 +5,7 @@
         string? Email,
         string Name,
         string Token,
+        string Role,
         int ExpiresIn
     );
 }
