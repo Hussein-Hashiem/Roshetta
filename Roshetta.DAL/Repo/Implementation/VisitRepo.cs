@@ -38,6 +38,12 @@ namespace Roshetta.DAL.Repo.Implementation
                 .AsNoTracking();
         }
 
+        public async Task<int> GetPatientCountOnDay(int doctorId, DateOnly date)
+        {
+            return await _dbContext.Visits
+                .Where(v => v.DoctorId == doctorId && !v.IsDeleted && date == v.Date).CountAsync();
+        }
+
         public async Task UpdateAsync(Visit visit, CancellationToken cancelToken)
         {
             await _dbContext.Visits

@@ -1,7 +1,9 @@
 ﻿namespace Roshetta.DAL.Repo.Abstraction
 {
-    internal interface IDoctorRepo
+    public interface IDoctorRepo
     {
         Task AddAsync(Doctor doctor);
+        IQueryable<Doctor> GetDoctorByUserId(string userId);
+
     }
 }

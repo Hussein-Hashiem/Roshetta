@@ -10,6 +10,6 @@ namespace Roshetta.DAL.Repo.Abstraction
         Task UpdateAsync(DoctorSchedule doctorSchedule, CancellationToken cancellationToken);
         IQueryable<DoctorSchedule> GetAll();
         IQueryable<DoctorSchedule> GetById(int id);
-        int GetMaxVisit(string day);
+        int GetMaxVisit(int doctorId, string day);
     }
 }

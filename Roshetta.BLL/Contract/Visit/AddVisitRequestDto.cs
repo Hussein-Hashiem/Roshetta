@@ -1,6 +1,7 @@
 namespace Roshetta.BLL.Contract.Visit
 {
     public record AddVisitRequestDto(
-        DateOnly Date
+        DateOnly Date,
+        string DoctorId
     );
 }
