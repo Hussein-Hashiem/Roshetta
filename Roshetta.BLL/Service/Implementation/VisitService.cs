@@ -2,14 +2,18 @@ namespace Roshetta.BLL.Service.Implementation
 {
     public class VisitService : IVisitService
     {
-        public Task<Result> AddVisitAsync(string userId, int doctorId, AddVisitRequestDto request, CancellationToken cancellationToken = default)
+        private readonly IVisitRepo _visitRepo;
+        private readonly IPatientRepo _patientRepo;
+        public VisitService(IVisitRepo visitRepo, IPatientRepo patientRepo)
         {
-            throw new NotImplementedException();
+            _visitRepo = visitRepo;
+            _patientRepo = patientRepo;
         }
 
-        public Task<Result> DeleteAsync(string userId, int visitId, bool isAdmin, CancellationToken cancellationToken = default)
+        public Task<Result> AddVisitAsync(string userId, int doctorId, AddVisitRequestDto request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
+            var dayName = request.Date.DayOfWeek.ToString();
         }
 
         public Task<Result> UpdateVisitAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default)
