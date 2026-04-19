@@ -1,0 +1,32 @@
+namespace Roshetta.API.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class VisitController : ControllerBase
+    {
+        private readonly IVisitService _visitService;
+
+        public VisitController(IVisitService visitService)
+        {
+            _visitService = visitService;
+        }
+        [HttpPost("")]
+        public async Task<IActionResult> Add([FromBody] AddVisitRequestDto request, CancellationToken cancellation)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _visitService.AddAsync(userId!, request!, cancellation);
+
+            return result.IsSuccess ? Ok() : result.ToProblem();
+        }
+        [HttpPut("{visitId}")]
+        public async Task<IActionResult> Update([FromRoute] int visitId, UpdateVisitRequestDto request, CancellationToken cancellation)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _visitService.UpdateAsync(userId!, visitId, request, cancellation);
+
+            return result.IsSuccess ? NoContent() : result.ToProblem();
+        }
+    }
+}

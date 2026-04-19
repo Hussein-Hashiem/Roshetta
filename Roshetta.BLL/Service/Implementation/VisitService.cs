@@ -14,15 +14,21 @@ namespace Roshetta.BLL.Service.Implementation
             _doctorRepo = doctorRepo;
         }
 
-        public async Task<Result> AddVisitAsync(string userId, AddVisitRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<Result> AddAsync(string userId, AddVisitRequestDto request, CancellationToken cancellationToken = default)
         {
             var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
+            if (patient == null) return Result.Failure(PatientErrors.NotFound);
+
             var doctor = _doctorRepo.GetDoctorByUserId(userId).FirstOrDefault();
+            if (doctor == null) return Result.Failure(DoctorErrors.NotFound);
+
             var dayName = request.Date.DayOfWeek.ToString();
             var maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id);
             var bookedPatients = await _visitRepo.GetPatientCountOnDay(doctor.Id, request.Date);
+
             if (bookedPatients >= maxVisit)
                 return Result.Failure(VisitErrors.DayFull);
+
             var visit = new Visit
             {
                 Status = Status.Pending,
@@ -30,13 +36,24 @@ namespace Roshetta.BLL.Service.Implementation
                 PatientId = patient.Id,
                 DoctorId = doctor.Id
             };
-            return Result.Success();
 
+            await _visitRepo.AddAsync(visit, cancellationToken);
+
+            return Result.Success();
         }
 
-        public Task<Result> UpdateVisitAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var visit = _visitRepo.GetById(visitId).FirstOrDefault();
+            if (visit == null) return Result.Failure(VisitErrors.NotFound);
+
+            var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
+            if (patient == null) return Result.Failure(PatientErrors.NotFound);
+
+            visit.Status = request.Status;
+            await _visitRepo.UpdateAsync(visit, cancellationToken);
+
+            return Result.Success();
         }
     }
 }

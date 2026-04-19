@@ -1,4 +1,6 @@
 namespace Roshetta.BLL.Contract.Visit
 {
-    public record UpdateVisitRequestDto();
+    public record UpdateVisitRequestDto(
+        Status Status
+    );
 }
