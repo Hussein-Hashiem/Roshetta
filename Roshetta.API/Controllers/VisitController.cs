@@ -28,5 +28,14 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? NoContent() : result.ToProblem();
         }
+        [HttpDelete("{visitId}")]
+        public async Task<IActionResult> Delete([FromRoute] int visitId, CancellationToken cancellation)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // var result = await _fieldSlotService.DeleteAsync(id, fieldId, userId!, cancellation);
+
+            return result.IsSuccess ? NoContent() : result.ToProblem();
+        }
     }
 }
