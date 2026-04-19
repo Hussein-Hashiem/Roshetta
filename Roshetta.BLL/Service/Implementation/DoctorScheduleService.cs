@@ -1,6 +1,4 @@
-﻿using Roshetta.BLL.Contract.DoctorSchedule;
-
-namespace Roshetta.BLL.Service.Implementation
+﻿namespace Roshetta.BLL.Service.Implementation
 {
     public class DoctorScheduleService : IDoctorScheduleService
     {

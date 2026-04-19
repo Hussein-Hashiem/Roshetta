@@ -1,6 +1,4 @@
-﻿
-
-namespace Roshetta.DAL.Repo.Implementation
+﻿namespace Roshetta.DAL.Repo.Implementation
 {
     public class PatientRepo : IPatientRepo
     {

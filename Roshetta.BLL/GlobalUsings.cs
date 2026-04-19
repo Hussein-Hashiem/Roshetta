@@ -12,7 +12,10 @@ global using Microsoft.AspNetCore.Identity;
 global using Roshetta.BLL.Authentication;
 global using Roshetta.BLL.Abstraction;
 global using Roshetta.BLL.Errors;
-global using Microsoft.AspNetCore.Identity.Data;
 global using Microsoft.EntityFrameworkCore;
 global using Roshetta.BLL.Contract.Visit;
 global using Roshetta.DAL.Repo.Abstraction;
+global using Microsoft.Extensions.Logging;
+global using Roshetta.DAL.Abstraction;
+global using Roshetta.BLL.Contract.DoctorSchedule;
+

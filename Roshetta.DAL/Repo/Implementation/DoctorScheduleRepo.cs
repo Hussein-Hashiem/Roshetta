@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Roshetta.DAL.Repo.Implementation
+﻿namespace Roshetta.DAL.Repo.Implementation
 {
     public class DoctorScheduleRepo : IDoctorScheduleRepo
     {
