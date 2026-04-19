@@ -2,8 +2,10 @@ namespace Roshetta.BLL.Service.Abstraction
 {
     public interface IVisitService
     {
-        Task<Result> AddVisitAsync(string userId, AddVisitRequestDto request, CancellationToken cancellationToken = default);
-        Task<Result> UpdateVisitAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default);
-        //   Task<Result> DeleteAsync(string userId, int visitId, bool isAdmin, CancellationToken cancellationToken = default);
+        Task<Result> AddAsync(string userId, AddVisitRequestDto request, CancellationToken cancellationToken = default);
+        Task<Result> UpdateAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default);
+        Task<Result> DeleteAsync(string userId, int visitId, CancellationToken cancellationToken = default);
+        Task<Result<IEnumerable<VisitResponseDto>>> GetAllAsync(CancellationToken cancellation = default);
+        Task<Result<VisitResponseDto>> GetByIdAsync(int visitId, CancellationToken cancellation = default);
     }
 }
