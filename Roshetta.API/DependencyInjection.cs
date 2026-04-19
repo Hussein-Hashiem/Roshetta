@@ -47,11 +47,13 @@ namespace Roshetta.API
             services.AddScoped<IPatientRepo, PatientRepo>();
             services.AddScoped<IDoctorRepo, DoctorRepo>();
             services.AddScoped<IDoctorScheduleRepo, DoctorScheduleRepo>();
+            services.AddScoped<IDepartmentRepo, DepartmentRepo>();
             #endregion
 
             #region Service
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
             #endregion
 
             return services;

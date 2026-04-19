@@ -4,12 +4,13 @@
     {
         public int Id { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public float Price { get; set; }
+        public decimal? Price { get; set; } 
+        public string Location { get; set; } = string.Empty;
+        public string Department { get; set; } = string.Empty;
+        public string Inof { get; set; } = string.Empty;
         public string UserId { get; set; } = string.Empty;
         public ApplicationUser User { get; set; } = default!;
         public ICollection<Visit> Visits { get; set; } = [];
         public ICollection<DoctorSchedule> DoctorSchedules { get; set; } = [];
-        public int? DepartmentId { get; set; }
-        public Department Department { get; set; } = default!;
     }
 }
