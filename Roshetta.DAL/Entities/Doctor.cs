@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public float Price { get; set; }
         public string UserId { get; set; } = string.Empty;
         public ApplicationUser User { get; set; } = default!;
         public ICollection<Visit> Visits { get; set; } = [];
