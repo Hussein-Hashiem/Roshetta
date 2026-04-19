@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Roshetta.DAL.Repo.Implementation
+﻿namespace Roshetta.DAL.Repo.Implementation
 {
     public class DoctorScheduleRepo : IDoctorScheduleRepo
     {
@@ -40,12 +36,15 @@ namespace Roshetta.DAL.Repo.Implementation
             return maxVisit;
         }
 
-        public async Task UpdateAsync(DoctorSchedule doctorSchedule, CancellationToken cancellationToken)
+        public async Task UpdateAsync(DoctorSchedule doctorSchedule, int doctorId, CancellationToken cancellationToken)
         {
-            await _context.DoctorSchedules.Where(d => d.Id == doctorSchedule.Id)
+            await _context.DoctorSchedules
+                .Where(d => d.Id == doctorSchedule.Id && d.DoctorId == doctorId)
                 .ExecuteUpdateAsync(setter => setter
                 .SetProperty(p => p.StartTime, doctorSchedule.StartTime)
                 .SetProperty(p => p.EndTime, doctorSchedule.EndTime)
+                .SetProperty(p => p.MaxVisit, doctorSchedule.MaxVisit)
+                .SetProperty(p => p.IsVacation, doctorSchedule.IsVacation)
                 .SetProperty(p => p.AverageConsultationTime, doctorSchedule.AverageConsultationTime));
         }
     }
