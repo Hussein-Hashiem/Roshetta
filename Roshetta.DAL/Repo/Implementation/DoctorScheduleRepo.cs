@@ -12,19 +12,32 @@ namespace Roshetta.DAL.Repo.Implementation
             _context = context;
         }
 
-        public IQueryable<DoctorSchedule> GetAll()
+        public async Task AddDaysAsync(List<DoctorSchedule> doctorSchedules)
         {
-            return _context.DoctorSchedules.Where(d => !d.IsDeleted).AsNoTracking();
+            await _context.DoctorSchedules.AddRangeAsync(doctorSchedules);
+            await _context.SaveChangesAsync();
+        }
+
+        public IQueryable<DoctorSchedule> GetAllSchedulesForDoctor(int doctorId)
+        {
+            return _context.DoctorSchedules
+                .AsNoTracking()
+                .Where(x => x.DoctorId == doctorId);
         }
 
         public IQueryable<DoctorSchedule> GetById(int id)
         {
-            return _context.DoctorSchedules.Where(d => d.Id == id).AsNoTracking();
+            return _context.DoctorSchedules.AsNoTracking().Where(d => d.Id == id);
         }
 
-        public int GetMaxVisit(int doctorId, string day)
+        public async Task<int> GetMaxVisit(int scheduleId)
         {
-            return _context.DoctorSchedules.FirstOrDefault(d => d.Day == day && d.DoctorId == doctorId)!.MaxVisit;
+            var maxVisit = await _context.DoctorSchedules
+                .Where(x => x.Id == scheduleId)
+                .Select(x => (int)((x.EndTime - x.StartTime).TotalMinutes / x.AverageConsultationTime))
+                .FirstOrDefaultAsync();
+
+            return maxVisit;
         }
 
         public async Task UpdateAsync(DoctorSchedule doctorSchedule, CancellationToken cancellationToken)
@@ -33,8 +46,7 @@ namespace Roshetta.DAL.Repo.Implementation
                 .ExecuteUpdateAsync(setter => setter
                 .SetProperty(p => p.StartTime, doctorSchedule.StartTime)
                 .SetProperty(p => p.EndTime, doctorSchedule.EndTime)
-                .SetProperty(p => p.Day, doctorSchedule.Day)
-                .SetProperty(p => p.MaxVisit, doctorSchedule.MaxVisit));
+                .SetProperty(p => p.AverageConsultationTime, doctorSchedule.AverageConsultationTime));
         }
     }
 }

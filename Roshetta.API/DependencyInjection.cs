@@ -42,15 +42,16 @@ namespace Roshetta.API
 
         public static IServiceCollection AddDependenciesConfig(this IServiceCollection services)
         {
-            services.AddScoped<IAuthService, AuthService>();
 
             #region Repo
             services.AddScoped<IPatientRepo, PatientRepo>();
             services.AddScoped<IDoctorRepo, DoctorRepo>();
+            services.AddScoped<IDoctorScheduleRepo, DoctorScheduleRepo>();
             #endregion
 
             #region Service
-
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
             #endregion
 
             return services;

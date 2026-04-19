@@ -19,7 +19,7 @@ namespace Roshetta.BLL.Service.Implementation
             var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
             var doctor = _doctorRepo.GetDoctorByUserId(userId).FirstOrDefault();
             var dayName = request.Date.DayOfWeek.ToString();
-            var maxVisit = _doctorScheduleRepo.GetMaxVisit(doctor.Id, dayName);
+            var maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id);
             var bookedPatients = await _visitRepo.GetPatientCountOnDay(doctor.Id, request.Date);
             if (bookedPatients >= maxVisit)
                 return Result.Failure(VisitErrors.DayFull);
