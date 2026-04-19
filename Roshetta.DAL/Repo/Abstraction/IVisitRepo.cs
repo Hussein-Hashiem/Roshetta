@@ -8,5 +8,8 @@ namespace Roshetta.DAL.Repo.Abstraction
         IQueryable<Visit> GetAll();
         IQueryable<Visit> GetById(int visitId);
         Task<int> GetPatientCountOnDay(int doctorId, DateOnly date);
+        Task<bool> IsExist(int doctorId, int patientId, DateOnly date);
+        Task<int> GetConfirmedCount(int doctorId, DateOnly date);
+        Task<int> GetNewRequestCount(int doctorId, DateOnly date);
     }
 }
