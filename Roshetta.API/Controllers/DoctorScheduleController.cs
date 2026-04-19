@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Roshetta.API.Controllers
+﻿namespace Roshetta.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -14,10 +11,13 @@ namespace Roshetta.API.Controllers
             _doctorScheduleService = doctorScheduleService;
         }
 
-        [HttpGet("{doctorId}")]
-        public async Task<IActionResult> GetDoctorSchedules([FromRoute] string doctorId, CancellationToken cancellationToken)
+        [HttpGet("")]
+        [Authorize(Roles = DefaultRoles.Doctor)]
+        public async Task<IActionResult> GetDoctorSchedules(CancellationToken cancellationToken)
         {
-            var result = await _doctorScheduleService.GetDoctorSchedulesAsync(doctorId, cancellationToken);
+            var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _doctorScheduleService.GetDoctorSchedulesAsync(doctorId!, cancellationToken);
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }

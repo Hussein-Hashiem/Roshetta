@@ -29,7 +29,7 @@ namespace Roshetta.BLL.Service.Implementation
                 x.EndTime,
                 x.IsVacation,
                 x.AverageConsultationTime,
-                (int)(x.EndTime - x.StartTime).TotalMinutes / x.AverageConsultationTime
+                x.MaxVisit
             )).ToList();
 
             return Result.Success(result);

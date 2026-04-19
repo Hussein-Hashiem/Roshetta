@@ -27,15 +27,11 @@ public class Program
         app.UseExceptionHandler();
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
-
-        app.MapControllers();
-
-        app.UseHttpsRedirection();
-        app.UseCors("AllowAll");
-
         app.UseAuthentication();
         app.UseAuthorization();
+
+
+        app.UseCors("AllowAll");
 
         app.MapControllers();
 

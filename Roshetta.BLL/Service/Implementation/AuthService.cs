@@ -91,6 +91,7 @@ namespace Roshetta.BLL.Service.Implementation
                         EndTime = new TimeOnly(0, 0),
                         AverageConsultationTime = 20,
                         IsVacation = true,
+                        MaxVisit = 0,
                         DoctorId = doctor.Id
                     }).ToList();
 
