@@ -1,6 +1,4 @@
-﻿using Roshetta.BLL.Contract.DoctorSchedule;
-
-namespace Roshetta.API.Controllers
+﻿namespace Roshetta.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]

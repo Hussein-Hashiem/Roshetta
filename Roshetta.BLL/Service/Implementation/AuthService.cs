@@ -1,10 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Roshetta.DAL.Abstraction;
-using Roshetta.DAL.Repo.Abstraction;
-
-namespace Roshetta.BLL.Service.Implementation
+﻿namespace Roshetta.BLL.Service.Implementation
 {
     public class AuthService : IAuthService
     {
