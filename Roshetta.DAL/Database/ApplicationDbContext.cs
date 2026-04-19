@@ -14,6 +14,7 @@ namespace Roshetta.DAL.Database
         public DbSet<MedicalRecord> MedicalRecords { get; set; } 
         public DbSet<Visit> Visits { get; set; } 
         public DbSet<DoctorSchedule> DoctorSchedules { get; set; } 
+        public DbSet<Department> Departments { get; set; } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

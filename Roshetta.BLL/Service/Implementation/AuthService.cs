@@ -126,7 +126,7 @@
             {
                 var patient = new Patient { UserId = user.Id };
 
-                await _patientRepo.AddAsync(patient);
+                await _patientRepo.AddAsync(patient, cancellationToken);
 
                 await _userManager.AddToRoleAsync(user, DefaultRoles.Patient);
 

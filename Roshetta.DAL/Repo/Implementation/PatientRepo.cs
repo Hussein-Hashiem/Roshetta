@@ -1,7 +1,3 @@
-
-
-using Microsoft.Identity.Client;
-
 namespace Roshetta.DAL.Repo.Implementation
 {
     public class PatientRepo : IPatientRepo
