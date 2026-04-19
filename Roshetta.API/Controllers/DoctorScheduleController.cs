@@ -1,4 +1,6 @@
-﻿namespace Roshetta.API.Controllers
+﻿using Roshetta.BLL.Contract.DoctorSchedule;
+
+namespace Roshetta.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -20,6 +22,17 @@
             var result = await _doctorScheduleService.GetDoctorSchedulesAsync(doctorId!, cancellationToken);
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
+
+        [HttpPut("")]
+        [Authorize(Roles = DefaultRoles.Doctor)]
+        public async Task<IActionResult> UpdateSchedules([FromBody] List<UpdateDoctorScheduleDto> request, CancellationToken cancellationToken = default)
+        {
+            var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var result = await _doctorScheduleService.UpdateSchedulesAsync(doctorId!, request, cancellationToken);
+
+            return result.IsSuccess ? NoContent() : result.ToProblem();  
         }
     }
 }
