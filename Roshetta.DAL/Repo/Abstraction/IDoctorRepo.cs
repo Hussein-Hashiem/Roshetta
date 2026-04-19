@@ -2,7 +2,7 @@
 {
     public interface IDoctorRepo
     {
-        Task<int> AddAsync(Doctor doctor);
+        Task AddAsync(Doctor doctor);
         IQueryable<Doctor> GetDoctorByUserId(string userId);
 
     }
