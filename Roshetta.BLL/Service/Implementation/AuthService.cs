@@ -1,10 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Roshetta.DAL.Abstraction;
-using Roshetta.DAL.Repo.Abstraction;
-
-namespace Roshetta.BLL.Service.Implementation
+﻿namespace Roshetta.BLL.Service.Implementation
 {
     public class AuthService : IAuthService
     {
@@ -67,22 +61,16 @@ namespace Roshetta.BLL.Service.Implementation
                 EmailConfirmed = true,
                 PhoneNumber = request.PhoneNumber,
                 DateOfBirth = request.DateOfBirth,
-                Gender = request.Gender.ToUpper() == "MALE" ? Gender.Male: Gender.Female
+                Gender = request.Gender.ToUpper() == "FEMALE" ? Gender.Female : Gender.Male
             };
             var result = await _userManager.CreateAsync(user, request.Password);
 
             if (result.Succeeded)
             {
-                var doctor = new Doctor { UserId = user.Id };
+                try 
+                {
 
-                var doctorId = await _doctorRepo.AddAsync(doctor);
-
-                _logger.LogWarning($"====> Doctor Id = {doctorId} <====== \n");
-
-                await _userManager.AddToRoleAsync(user, DefaultRoles.Doctor);
-
-
-                var schedules = Enum.GetValues(typeof(WeekDay))
+                    var schedules = Enum.GetValues(typeof(WeekDay))
                     .Cast<WeekDay>()
                     .Select(day => new DoctorSchedule
                     {
@@ -91,11 +79,19 @@ namespace Roshetta.BLL.Service.Implementation
                         EndTime = new TimeOnly(0, 0),
                         AverageConsultationTime = 20,
                         IsVacation = true,
-                        MaxVisit = 0,
-                        DoctorId = doctor.Id
+                        MaxVisit = 10
                     }).ToList();
 
-                await _doctorScheduleRepo.AddDaysAsync(schedules);
+                    var doctor = new Doctor { UserId = user.Id, DoctorSchedules = schedules };
+
+                    await _doctorRepo.AddAsync(doctor);
+
+                    await _userManager.AddToRoleAsync(user, DefaultRoles.Doctor);
+                }
+                catch (Exception ex)
+                {
+                    return Result.Failure<AuthResponseDto>(new Error("Debug.Error", ex.Message + "  Inner: " + ex.InnerException?.Message, ErrorType.BadRequest));
+                }
 
                 // Generate JWT 
                 var (token, expiresIn) = _jwtProvider.GenerateToken(user, [DefaultRoles.Doctor]);
@@ -122,7 +118,7 @@ namespace Roshetta.BLL.Service.Implementation
                 EmailConfirmed = true,
                 PhoneNumber = request.PhoneNumber,
                 DateOfBirth = request.DateOfBirth,
-                Gender = request.Gender.ToUpper() == "MALE" ? Gender.Male : Gender.Female
+                Gender = request.Gender.ToUpper() == "FEMALE" ? Gender.Female : Gender.Male
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

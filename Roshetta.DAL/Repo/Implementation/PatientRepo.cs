@@ -1,4 +1,4 @@
-﻿
+
 
 using Microsoft.Identity.Client;
 
