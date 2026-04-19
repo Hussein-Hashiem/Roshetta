@@ -8,8 +8,8 @@ namespace Roshetta.DAL.Repo.Abstraction
     public interface IDoctorScheduleRepo
     {
         Task UpdateAsync(DoctorSchedule doctorSchedule, CancellationToken cancellationToken);
-        IQueryable<DoctorSchedule> GetAll();
-        IQueryable<DoctorSchedule> GetById(int id);
-        int GetMaxVisit(int doctorId, string day);
+        Task AddDaysAsync(List<DoctorSchedule> doctorSchedules);
+        IQueryable<DoctorSchedule> GetAllSchedulesForDoctor(int id);
+        Task<int> GetMaxVisit(int doctorId);
     }
 }

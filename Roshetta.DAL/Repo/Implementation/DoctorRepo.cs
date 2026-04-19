@@ -9,17 +9,18 @@
             _context = context;
         }
 
-        public async Task AddAsync(Doctor doctor)
+        public async Task<int> AddAsync(Doctor doctor)
         {
             await _context.Doctors.AddAsync(doctor);
             await _context.SaveChangesAsync();
+            return doctor.Id;
         }
 
         public IQueryable<Doctor> GetDoctorByUserId(string userId)
         {
             return _context.Doctors
-                .Where(v => v.UserId == userId && !v.IsDeleted)
-                .AsNoTracking();
+                .AsNoTracking()
+                .Where(v => v.UserId == userId && !v.IsDeleted);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Roshetta.DAL.Abstraction;
 using Roshetta.DAL.Repo.Abstraction;
 
@@ -10,14 +11,23 @@ namespace Roshetta.BLL.Service.Implementation
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPatientRepo _patientRepo;
         private readonly IDoctorRepo _doctorRepo;
+        private readonly IDoctorScheduleRepo _doctorScheduleRepo;
         private readonly IJwtProvider _jwtProvider;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(UserManager<ApplicationUser> userManager, IJwtProvider jwtProvider, IPatientRepo patientRepo, IDoctorRepo doctorRepo)
+        public AuthService(UserManager<ApplicationUser> userManager, 
+            IJwtProvider jwtProvider, 
+            IPatientRepo patientRepo, 
+            IDoctorRepo doctorRepo, 
+            ILogger<AuthService> logger, 
+            IDoctorScheduleRepo doctorScheduleRepo)
         {
             _userManager = userManager;
             _jwtProvider = jwtProvider;
             _patientRepo = patientRepo;
             _doctorRepo = doctorRepo;
+            _logger = logger;
+            _doctorScheduleRepo = doctorScheduleRepo;
         }
 
         public async Task<Result<AuthResponseDto>?> GetTokenAsync(string email, string password, CancellationToken cancellationToken = default)
@@ -39,7 +49,6 @@ namespace Roshetta.BLL.Service.Implementation
             // Generate JWT 
             var (token, expiresIn) = _jwtProvider.GenerateToken(user, userRoles);
 
-            // If all Success 
             return Result.Success(new AuthResponseDto(user.Id, user.Email, user.Name, token, userRoles.FirstOrDefault()!, user.Gender.ToString(), expiresIn));
         }
 
@@ -66,9 +75,26 @@ namespace Roshetta.BLL.Service.Implementation
             {
                 var doctor = new Doctor { UserId = user.Id };
 
-                 await _doctorRepo.AddAsync(doctor);
+                var doctorId = await _doctorRepo.AddAsync(doctor);
+
+                _logger.LogWarning($"====> Doctor Id = {doctorId} <====== \n");
 
                 await _userManager.AddToRoleAsync(user, DefaultRoles.Doctor);
+
+
+                var schedules = Enum.GetValues(typeof(WeekDay))
+                    .Cast<WeekDay>()
+                    .Select(day => new DoctorSchedule
+                    {
+                        Day = day,
+                        StartTime = new TimeOnly(0, 0),
+                        EndTime = new TimeOnly(0, 0),
+                        AverageConsultationTime = 20,
+                        IsVacation = true,
+                        DoctorId = doctor.Id
+                    }).ToList();
+
+                await _doctorScheduleRepo.AddDaysAsync(schedules);
 
                 // Generate JWT 
                 var (token, expiresIn) = _jwtProvider.GenerateToken(user, [DefaultRoles.Doctor]);
