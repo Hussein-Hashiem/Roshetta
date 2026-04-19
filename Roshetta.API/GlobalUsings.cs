@@ -12,4 +12,6 @@ global using Roshetta.DAL.Entities;
 global using Microsoft.AspNetCore.Identity.Data;
 global using Roshetta.API.Extensions;
 global using Roshetta.BLL.Contract.Authentication;
-
+global using Microsoft.AspNetCore.Authorization;
+global using Roshetta.DAL.Abstraction;
+global using System.Security.Claims;

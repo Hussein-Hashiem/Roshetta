@@ -32,12 +32,8 @@ namespace Roshetta.DAL.Repo.Implementation
 
         public async Task<int> GetMaxVisit(int scheduleId)
         {
-            var maxVisit = await _context.DoctorSchedules
-                .Where(x => x.Id == scheduleId)
-                .Select(x => (int)((x.EndTime - x.StartTime).TotalMinutes / x.AverageConsultationTime))
-                .FirstOrDefaultAsync();
-
-            return maxVisit;
+            return await _context.DoctorSchedules
+                .CountAsync(x => x.Id == scheduleId);
         }
 
         public async Task UpdateAsync(DoctorSchedule doctorSchedule, CancellationToken cancellationToken)
@@ -46,6 +42,7 @@ namespace Roshetta.DAL.Repo.Implementation
                 .ExecuteUpdateAsync(setter => setter
                 .SetProperty(p => p.StartTime, doctorSchedule.StartTime)
                 .SetProperty(p => p.EndTime, doctorSchedule.EndTime)
+                .SetProperty(p => p.MaxVisit, doctorSchedule.MaxVisit)
                 .SetProperty(p => p.AverageConsultationTime, doctorSchedule.AverageConsultationTime));
         }
     }
