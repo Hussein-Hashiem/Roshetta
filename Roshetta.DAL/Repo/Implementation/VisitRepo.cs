@@ -28,6 +28,8 @@ namespace Roshetta.DAL.Repo.Implementation
         {
             return _dbContext.Visits
                 .Where(v => !v.IsDeleted)
+                .Include(x => x.Patient)
+                .ThenInclude(x => x.User)
                 .AsNoTracking();
         }
 

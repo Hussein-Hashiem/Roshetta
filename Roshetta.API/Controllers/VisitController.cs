@@ -33,9 +33,16 @@ namespace Roshetta.API.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // var result = await _fieldSlotService.DeleteAsync(id, fieldId, userId!, cancellation);
+            var result = await _visitService.DeleteAsync(userId!, visitId, cancellation);
 
             return result.IsSuccess ? NoContent() : result.ToProblem();
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellation)
+        {
+            var result = await _fieldSlotService.GetByIdAsync(id, cancellation);
+
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
     }
 }

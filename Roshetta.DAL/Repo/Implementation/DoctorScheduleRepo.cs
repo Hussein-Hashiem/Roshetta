@@ -30,10 +30,10 @@ namespace Roshetta.DAL.Repo.Implementation
             return _context.DoctorSchedules.AsNoTracking().Where(d => d.Id == id);
         }
 
-        public async Task<int> GetMaxVisit(int scheduleId)
+        public async Task<int> GetMaxVisit(int doctorId, WeekDay day)
         {
             var maxVisit = await _context.DoctorSchedules
-                .Where(x => x.Id == scheduleId)
+                .Where(x => x.DoctorId == doctorId && x.Day == day)
                 .Select(x => (int)((x.EndTime - x.StartTime).TotalMinutes / x.AverageConsultationTime))
                 .FirstOrDefaultAsync();
 
