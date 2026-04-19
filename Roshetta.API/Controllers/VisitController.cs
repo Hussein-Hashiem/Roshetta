@@ -44,5 +44,12 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellation)
+        {
+            var result = await _visitService.GetByIdAsync(id, cancellation);
+
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
     }
 }

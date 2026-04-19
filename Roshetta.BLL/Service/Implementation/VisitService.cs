@@ -15,7 +15,16 @@ namespace Roshetta.BLL.Service.Implementation
             _doctorRepo = doctorRepo;
             _userManager = userManager;
         }
-
+        private async Task<Result<DaySummaryDto>> GetDaySummary(int doctorId, DateOnly d)
+        {
+            var newRequset = await _visitRepo.GetNewRequestCount(doctorId, d);
+            var confimed = await _visitRepo.GetConfirmedCount(doctorId, d);
+            var response = new DaySummaryDto(
+                newRequset,
+                confimed
+            );
+            return Result.Success(response);
+        }
         public async Task<Result> AddAsync(string userId, AddVisitRequestDto request, CancellationToken cancellationToken = default)
         {
             var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
@@ -91,6 +100,24 @@ namespace Roshetta.BLL.Service.Implementation
                     f.Status
                 )).ToListAsync(cancellation);
             return Result.Success<IEnumerable<VisitResponseDto>>(visits);
+        }
+
+        public async Task<Result<VisitResponseDto>> GetByIdAsync(int visitId, CancellationToken cancellation = default)
+        {
+            var visit = await _visitRepo.GetById(visitId)
+                .Select(f => new VisitResponseDto(
+                    f.Id,
+                    f.Date,
+                    f.Patient.User.Name,
+                    f.Patient.User.PhoneNumber!,
+                    f.Status
+                )).FirstOrDefaultAsync();
+
+            if (visit is null)
+                return Result.Failure<VisitResponseDto>(VisitErrors.NotFound);
+
+            return Result.Success(visit);
+
         }
 
         public async Task<Result> UpdateAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default)

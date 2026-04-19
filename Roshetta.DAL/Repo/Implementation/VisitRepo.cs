@@ -37,6 +37,8 @@ namespace Roshetta.DAL.Repo.Implementation
         {
             return _dbContext.Visits
                 .Where(v => v.Id == visitId && !v.IsDeleted)
+                .Include(x => x.Patient)
+                .ThenInclude(x => x.User)
                 .AsNoTracking();
         }
 
@@ -45,7 +47,14 @@ namespace Roshetta.DAL.Repo.Implementation
             return await _dbContext.Visits
                 .Where(v => v.DoctorId == doctorId && !v.IsDeleted && date == v.Date).CountAsync();
         }
-
+        public async Task<int> GetNewRequestCount(int doctorId, DateOnly date)
+        {
+            return await _dbContext.Visits.Where(v => v.DoctorId == doctorId && v.Date == date && v.Status == Status.Pending).CountAsync();
+        }
+        public async Task<int> GetConfirmedCount(int doctorId, DateOnly date)
+        {
+            return await _dbContext.Visits.Where(v => v.DoctorId == doctorId && v.Date == date && v.Status == Status.Approved).CountAsync();
+        }
         public async Task<bool> IsExist(int doctorId, int patientId, DateOnly date)
         {
             return await _dbContext.Visits
