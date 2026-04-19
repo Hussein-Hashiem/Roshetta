@@ -37,10 +37,10 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? NoContent() : result.ToProblem();
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellation)
+        [HttpGet("")]
+        public async Task<IActionResult> GetAll(CancellationToken cancellation)
         {
-            var result = await _fieldSlotService.GetByIdAsync(id, cancellation);
+            var result = await _visitService.GetAllAsync(cancellation);
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }

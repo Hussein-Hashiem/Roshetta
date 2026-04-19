@@ -46,12 +46,18 @@ namespace Roshetta.DAL.Repo.Implementation
                 .Where(v => v.DoctorId == doctorId && !v.IsDeleted && date == v.Date).CountAsync();
         }
 
+        public async Task<bool> IsExist(int doctorId, int patientId, DateOnly date)
+        {
+            return await _dbContext.Visits
+                .Where(v => v.DoctorId == doctorId && !v.IsDeleted && date == v.Date && v.PatientId == patientId).AnyAsync();
+        }
+
         public async Task UpdateAsync(Visit visit, CancellationToken cancelToken)
         {
             await _dbContext.Visits
                     .Where(v => v.Id == visit.Id)
                     .ExecuteUpdateAsync(setter =>
-                        setter.SetProperty(f => f.Status, visit.Status));
+                        setter.SetProperty(f => f.Status, visit.Status).SetProperty(f => f.IsDeleted, visit.IsDeleted));
         }
     }
 }

@@ -24,6 +24,9 @@ namespace Roshetta.BLL.Service.Implementation
             var doctor = _doctorRepo.GetDoctorByUserId(request.DoctorId).FirstOrDefault();
             if (doctor == null) return Result.Failure(DoctorErrors.NotFound);
 
+            var isExist = await _visitRepo.IsExist(doctor.Id, patient.Id, request.Date);
+            if (isExist) return Result.Failure(VisitErrors.AlreadyBooked);
+
             var weekDay = Enum.Parse<WeekDay>(request.Date.DayOfWeek.ToString());
             var maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id, weekDay);
             var bookedPatients = await _visitRepo.GetPatientCountOnDay(doctor.Id, request.Date);
@@ -75,6 +78,19 @@ namespace Roshetta.BLL.Service.Implementation
             await _visitRepo.UpdateAsync(visit, cancellationToken);
 
             return Result.Success();
+        }
+
+        public async Task<Result<IEnumerable<VisitResponseDto>>> GetAllAsync(CancellationToken cancellation = default)
+        {
+            var visits = await _visitRepo.GetAll()
+                .Select(f => new VisitResponseDto(
+                    f.Id,
+                    f.Date,
+                    f.Patient.User.Name,
+                    f.Patient.User.PhoneNumber!,
+                    f.Status
+                )).ToListAsync(cancellation);
+            return Result.Success<IEnumerable<VisitResponseDto>>(visits);
         }
 
         public async Task<Result> UpdateAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default)

@@ -12,5 +12,7 @@ namespace Roshetta.BLL.Errors
             = new Error("Visit.Unauthorized", "You dont have access to this visit", ErrorType.Unauthorized);
         public static Error AlreadyDeleted
             = new Error("Visit.AlreadyDeleted", "This visit already deleted.", ErrorType.BadRequest);
+        public static Error AlreadyBooked
+            = new Error("Visit.AlreadyBooked", "This visit already booked.", ErrorType.BadRequest);
     }
 }
