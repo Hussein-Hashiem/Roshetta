@@ -12,26 +12,39 @@ namespace Roshetta.DAL.Repo.Implementation
         public async Task AddAsync(Patient patient, CancellationToken cancellationToken)
         {
             await _context.Patients.AddAsync(patient);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        public async Task DeleteAsync(string userId, CancellationToken cancellationToken)
         {
-            await _context.Patients.Where(p => p.Id == id && !p.IsDeleted)
+            await _context.Patients.Where(p => p.UserId == userId && !p.IsDeleted)
                 .ExecuteUpdateAsync(setter => setter.SetProperty(p => p.IsDeleted, true));
         }
 
-        public IQueryable<Patient> GetAllAsync()
-        {
-            return _context.Patients.Where(p => !p.IsDeleted).Include(x => x.User).AsNoTracking();
-        }
-
-        public IQueryable<Patient> GetPatientByUserId(string userId)
+        public IQueryable<Patient> GetAll(CancellationToken cancellationToken = default)
         {
             return _context.Patients
-                .Where(v => v.UserId == userId && !v.IsDeleted)
-                .Include(x => x.User)
-                .AsNoTracking();
+                .AsNoTracking()
+                .Where(p => !p.IsDeleted)
+                .Include(x => x.User);
+        }
+
+        public IQueryable<Patient> GetPatientByUserId(string userId, CancellationToken cancellationToken = default)
+        {
+            return _context.Patients
+                .AsNoTracking()
+                .Where(v => v.UserId == userId && !v.IsDeleted);
+        }
+        public async Task UpdateAsync(string userId, Patient patient, CancellationToken cancellationToken = default)
+        {
+            await _context.Users
+                .Where(p => p.Id == userId && !p.IsDeleted)
+                .ExecuteUpdateAsync(setter => setter
+                .SetProperty(p => p.Name, patient.User.Name)
+                .SetProperty(p => p.PhoneNumber, patient.User.PhoneNumber)
+                .SetProperty(p => p.DateOfBirth, patient.User.DateOfBirth)
+                .SetProperty(p => p.Gender, patient.User.Gender)
+                );
         }
     }
 }
