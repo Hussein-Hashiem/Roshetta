@@ -71,5 +71,12 @@ namespace Roshetta.DAL.Repo.Implementation
                 .Where(v => !v.IsDeleted && v.PatientId == patientId)
                 .AsNoTracking();
         }
+
+        public IQueryable<Visit> GetVisitsByDoctorId(int doctorId)
+        {
+            return _dbContext.Visits
+                .Where(v => !v.IsDeleted && v.DoctorId == doctorId)
+                .AsNoTracking();
+        }
     }
 }
