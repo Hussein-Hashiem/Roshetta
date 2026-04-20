@@ -14,5 +14,7 @@ namespace Roshetta.BLL.Errors
             = new Error("Visit.AlreadyDeleted", "This visit already deleted.", ErrorType.BadRequest);
         public static Error AlreadyBooked
             = new Error("Visit.AlreadyBooked", "This visit already booked.", ErrorType.BadRequest);
+        public static Error IsVacation
+            = new Error("Visit.IsVacation", "This day is vacation.", ErrorType.BadRequest);
     }
 }

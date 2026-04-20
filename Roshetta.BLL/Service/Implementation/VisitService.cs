@@ -15,16 +15,6 @@ namespace Roshetta.BLL.Service.Implementation
             _doctorRepo = doctorRepo;
             _userManager = userManager;
         }
-        private async Task<Result<DaySummaryDto>> GetDaySummary(int doctorId, DateOnly d)
-        {
-            var newRequset = await _visitRepo.GetNewRequestCount(doctorId, d);
-            var confimed = await _visitRepo.GetConfirmedCount(doctorId, d);
-            var response = new DaySummaryDto(
-                newRequset,
-                confimed
-            );
-            return Result.Success(response);
-        }
         public async Task<Result> AddAsync(string userId, AddVisitRequestDto request, CancellationToken cancellationToken = default)
         {
             var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
@@ -37,8 +27,10 @@ namespace Roshetta.BLL.Service.Implementation
             if (isExist) return Result.Failure(VisitErrors.AlreadyBooked);
 
             var weekDay = Enum.Parse<WeekDay>(request.Date.DayOfWeek.ToString());
-            var 
-                maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id, weekDay);
+            var isVacation = await _doctorScheduleRepo.IsVacation(doctor.Id, weekDay);
+            if (isVacation) return Result.Failure(VisitErrors.IsVacation);
+
+            var maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id, weekDay);
             var bookedPatients = await _visitRepo.GetPatientCountOnDay(doctor.Id, request.Date);
 
             // ======= ya walliy elne3m ==========
