@@ -18,4 +18,4 @@ global using Roshetta.DAL.Repo.Abstraction;
 global using Microsoft.Extensions.Logging;
 global using Roshetta.DAL.Abstraction;
 global using Roshetta.BLL.Contract.DoctorSchedule;
-
+global using Roshetta.BLL.Contract.MedicalRecord;

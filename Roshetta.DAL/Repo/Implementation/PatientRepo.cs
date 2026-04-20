@@ -9,13 +9,13 @@ namespace Roshetta.DAL.Repo.Implementation
             _context = context;
         }
 
-        public async Task AddAsync(Patient patient, CancellationToken cancellationToken)
+        public async Task AddAsync(Patient patient, CancellationToken cancellationToken = default)
         {
             await _context.Patients.AddAsync(patient);
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(string userId, CancellationToken cancellationToken)
+        public async Task DeleteAsync(string userId, CancellationToken cancellationToken = default)
         {
             await _context.Patients.Where(p => p.UserId == userId && !p.IsDeleted)
                 .ExecuteUpdateAsync(setter => setter.SetProperty(p => p.IsDeleted, true));
