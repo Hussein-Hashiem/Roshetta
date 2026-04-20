@@ -5,7 +5,8 @@ namespace Roshetta.DAL.Repo.Abstraction
         Task AddAsync(Visit visit, CancellationToken cancellationToken);
         Task UpdateAsync(Visit visit, CancellationToken cancelToken);
         Task DeleteAsync(int visitId, CancellationToken cancellationToken = default);
-        IQueryable<Visit> GetAll();
+        IQueryable<Visit> GetAll(int doctorId);
+        IQueryable<Visit> GetAllPerDay(int doctorId);
         IQueryable<Visit> GetPatientVisit(int patientId);
         IQueryable<Visit> GetVisitsByDoctorId(int doctorId);
         IQueryable<Visit> GetById(int visitId);

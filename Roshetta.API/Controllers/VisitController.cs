@@ -12,6 +12,7 @@ namespace Roshetta.API.Controllers
         }
 
         [HttpPost("")]
+        [Authorize]
         public async Task<IActionResult> Add([FromBody] AddVisitRequestDto request, CancellationToken cancellation)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -22,6 +23,7 @@ namespace Roshetta.API.Controllers
         }
 
         [HttpPut("{visitId}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int visitId, UpdateVisitRequestDto request, CancellationToken cancellation)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -30,7 +32,9 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? NoContent() : result.ToProblem();
         }
+
         [HttpDelete("{visitId}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int visitId, CancellationToken cancellation)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -41,17 +45,32 @@ namespace Roshetta.API.Controllers
         }
 
         [HttpGet("")]
+        [Authorize]
         public async Task<IActionResult> GetAll(CancellationToken cancellation)
         {
-            var result = await _visitService.GetAllAsync(cancellation);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _visitService.GetAllAsync(userId!,cancellation);
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellation)
         {
             var result = await _visitService.GetByIdAsync(id, cancellation);
+
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
+
+        [HttpGet("today")]
+        [Authorize]
+        public async Task<IActionResult> GetAllPerDay(CancellationToken cancellationToken)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _visitService.GetAllPerDayAsync(userId!, cancellationToken);
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }

@@ -81,9 +81,24 @@ namespace Roshetta.BLL.Service.Implementation
             return Result.Success();
         }
 
-        public async Task<Result<IEnumerable<VisitResponseDto>>> GetAllAsync(CancellationToken cancellation = default)
+        public async Task<Result<IEnumerable<VisitResponseDto>>> GetAllAsync(string userId, CancellationToken cancellation = default)
         {
-            var visits = await _visitRepo.GetAll()
+            var doctor = await _doctorRepo.GetDoctorByUserId(userId).FirstOrDefaultAsync();
+            var visits = await _visitRepo.GetAll(doctor.Id)
+                .Select(f => new VisitResponseDto(
+                    f.Id,
+                    f.Date,
+                    f.Patient.User.Name,
+                    f.Patient.User.PhoneNumber!,
+                    f.Status
+                )).ToListAsync(cancellation);
+            return Result.Success<IEnumerable<VisitResponseDto>>(visits);
+        }
+
+        public async Task<Result<IEnumerable<VisitResponseDto>>> GetAllPerDayAsync(string userId, CancellationToken cancellation = default)
+        {
+            var doctor = await _doctorRepo.GetDoctorByUserId(userId).FirstOrDefaultAsync();
+            var visits = await _visitRepo.GetAllPerDay(doctor.Id)
                 .Select(f => new VisitResponseDto(
                     f.Id,
                     f.Date,

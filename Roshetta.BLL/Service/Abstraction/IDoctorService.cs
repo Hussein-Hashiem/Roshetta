@@ -8,5 +8,6 @@ namespace Roshetta.BLL.Service.Abstraction
         Task<Result<IEnumerable<DoctorResponseDto>>> GetAll(CancellationToken cancellationToken = default);
         Task<Result<IEnumerable<PatientDataResponseDto>>> GetPatientsData(string userId, CancellationToken cancellationToken = default);
         Task<Result<DoctorProfileResponseDto>> GetProfileAsync(string userId, CancellationToken cancellationToken = default);
+        Task<Result> UpdateProfileAsync(string userId, UpdateDoctorProfileDto request, CancellationToken cancellationToken = default);
     }
 }

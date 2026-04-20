@@ -24,10 +24,10 @@ namespace Roshetta.DAL.Repo.Implementation
                 );
         }
 
-        public IQueryable<Visit> GetAll()
+        public IQueryable<Visit> GetAll(int doctorId)
         {
             return _dbContext.Visits
-                .Where(v => !v.IsDeleted)
+                .Where(v => !v.IsDeleted && v.DoctorId == doctorId)
                 .AsNoTracking();
         }
 
@@ -76,6 +76,10 @@ namespace Roshetta.DAL.Repo.Implementation
         {
             return _dbContext.Visits
                 .Where(v => !v.IsDeleted && v.DoctorId == doctorId)
+        public IQueryable<Visit> GetAllPerDay(int doctorId)
+        {
+            return _dbContext.Visits
+                .Where(v => !v.IsDeleted && v.DoctorId == doctorId && v.Date == DateOnly.FromDateTime(DateTime.Now))
                 .AsNoTracking();
         }
     }
