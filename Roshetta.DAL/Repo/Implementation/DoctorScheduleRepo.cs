@@ -38,7 +38,8 @@
 
         public async Task<bool> IsVacation(int doctorId, WeekDay day)
         {
-            return await _context.DoctorSchedules.AnyAsync(x => x.DoctorId == doctorId && x.IsVacation);
+            return await _context.DoctorSchedules
+                .AnyAsync(x => x.DoctorId == doctorId && x.IsVacation && x.Day == day);
         }
 
         public async Task UpdateAsync(DoctorSchedule doctorSchedule, int doctorId, CancellationToken cancellationToken)

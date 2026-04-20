@@ -25,19 +25,16 @@ namespace Roshetta.BLL.Service.Implementation
             var doctor = _doctorRepo.GetDoctorByUserId(request.DoctorId).FirstOrDefault();
             if (doctor == null) return Result.Failure(DoctorErrors.NotFound);
 
+            var weekDay = Enum.Parse<WeekDay>(request.Date.DayOfWeek.ToString());
+
             var isExist = await _visitRepo.IsExist(doctor.Id, patient.Id, request.Date);
             if (isExist) return Result.Failure(VisitErrors.AlreadyBooked);
 
-            var weekDay = Enum.Parse<WeekDay>(request.Date.DayOfWeek.ToString());
             var isVacation = await _doctorScheduleRepo.IsVacation(doctor.Id, weekDay);
             if (isVacation) return Result.Failure(VisitErrors.IsVacation);
 
             var maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id, weekDay);
             var bookedPatients = await _visitRepo.GetPatientCountOnDay(doctor.Id, request.Date);
-
-            // ======= ya walliy elne3m ==========
-            // Console.WriteLine($"maxVisit {maxVisit}");
-            // Console.WriteLine($"booked {bookedPatients}");
 
             if (bookedPatients >= maxVisit)
                 return Result.Failure(VisitErrors.DayFull);
@@ -65,13 +62,13 @@ namespace Roshetta.BLL.Service.Implementation
 
             if (visit.IsDeleted) return Result.Failure(VisitErrors.AlreadyDeleted);
 
-            if (await _userManager.IsInRoleAsync(user, "Doctor"))
+            if (await _userManager.IsInRoleAsync(user, DefaultRoles.Doctor))
             {
                 var doctor = _doctorRepo.GetDoctorByUserId(userId).FirstOrDefault();
                 if (doctor == null) return Result.Failure(DoctorErrors.NotFound);
                 if (visit.DoctorId != doctor.Id) return Result.Failure(VisitErrors.Unauthorized);
             }
-            else if (await _userManager.IsInRoleAsync(user, "Patient"))
+            else if (await _userManager.IsInRoleAsync(user, DefaultRoles.Patient))
             {
                 var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
                 if (patient == null) return Result.Failure(PatientErrors.NotFound);
