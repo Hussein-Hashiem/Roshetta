@@ -1,3 +1,5 @@
+using Roshetta.BLL.Contract.Patient;
+
 namespace Roshetta.BLL.Service.Implementation
 {
     public class VisitService : IVisitService
@@ -108,6 +110,21 @@ namespace Roshetta.BLL.Service.Implementation
 
             return Result.Success(visit);
 
+        }
+
+        public async Task<Result<IEnumerable<PatientVisitResponseDto>>> GetPatientVisitsAsync(string userId, CancellationToken cancellation = default)
+        {
+            var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
+            if (patient == null) return Result.Failure<IEnumerable<PatientVisitResponseDto>>(PatientErrors.NotFound);
+
+            var visits = await _visitRepo.GetPatientVisit(patient.Id)
+                .Select(f => new PatientVisitResponseDto(
+                    f.Doctor.User.Name,
+                    f.Doctor.Department,
+                    f.Date,
+                    f.Status
+                )).ToListAsync(cancellation);
+            return Result.Success<IEnumerable<PatientVisitResponseDto>>(visits);
         }
 
         public async Task<Result> UpdateAsync(string userId, int visitId, UpdateVisitRequestDto request, CancellationToken cancellationToken = default)

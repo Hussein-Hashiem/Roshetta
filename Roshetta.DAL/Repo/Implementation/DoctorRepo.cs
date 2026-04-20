@@ -1,4 +1,4 @@
-﻿namespace Roshetta.DAL.Repo.Implementation
+namespace Roshetta.DAL.Repo.Implementation
 {
     public class DoctorRepo : IDoctorRepo
     {
@@ -15,12 +15,20 @@
             await _context.SaveChangesAsync();
         }
 
+        public IQueryable<Doctor> GetAll(CancellationToken cancellationToken = default)
+        {
+            return _context.Doctors
+                .AsNoTracking()
+                .Where(p => !p.IsDeleted);
+        }
+
         public IQueryable<Doctor> GetDoctorByUserId(string userId, CancellationToken cancellationToken = default)
         {
             return _context.Doctors
                 .AsNoTracking()
                 .Where(v => v.UserId == userId && !v.IsDeleted);
         }
+
 
         public async Task UpdateAsync(string userId, Doctor request)
         {
