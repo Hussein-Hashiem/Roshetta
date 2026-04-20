@@ -59,6 +59,7 @@ namespace Roshetta.API
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IVisitService, VisitService>();
             services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<IDoctorService, DoctorService>();
             #endregion
 
             return services;

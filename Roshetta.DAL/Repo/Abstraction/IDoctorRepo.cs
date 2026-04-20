@@ -4,6 +4,7 @@
     {
         Task AddAsync(Doctor doctor);
         IQueryable<Doctor> GetDoctorByUserId(string userId);
+        IQueryable<Doctor> GetAll(CancellationToken cancellationToken = default);
 
     }
 }

@@ -15,6 +15,13 @@
             await _context.SaveChangesAsync();
         }
 
+        public IQueryable<Doctor> GetAll(CancellationToken cancellationToken = default)
+        {
+            return _context.Doctors
+                .AsNoTracking()
+                .Where(p => !p.IsDeleted);
+        }
+
         public IQueryable<Doctor> GetDoctorByUserId(string userId)
         {
             return _context.Doctors
