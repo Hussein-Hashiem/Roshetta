@@ -23,19 +23,16 @@ namespace Roshetta.BLL.Service.Implementation
             var doctor = _doctorRepo.GetDoctorByUserId(request.DoctorId).FirstOrDefault();
             if (doctor == null) return Result.Failure(DoctorErrors.NotFound);
 
+            var weekDay = Enum.Parse<WeekDay>(request.Date.DayOfWeek.ToString());
+
             var isExist = await _visitRepo.IsExist(doctor.Id, patient.Id, request.Date);
             if (isExist) return Result.Failure(VisitErrors.AlreadyBooked);
 
-            var weekDay = Enum.Parse<WeekDay>(request.Date.DayOfWeek.ToString());
             var isVacation = await _doctorScheduleRepo.IsVacation(doctor.Id, weekDay);
             if (isVacation) return Result.Failure(VisitErrors.IsVacation);
 
             var maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id, weekDay);
             var bookedPatients = await _visitRepo.GetPatientCountOnDay(doctor.Id, request.Date);
-
-            // ======= ya walliy elne3m ==========
-            // Console.WriteLine($"maxVisit {maxVisit}");
-            // Console.WriteLine($"booked {bookedPatients}");
 
             if (bookedPatients >= maxVisit)
                 return Result.Failure(VisitErrors.DayFull);
