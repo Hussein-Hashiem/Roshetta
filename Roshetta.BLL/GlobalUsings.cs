@@ -19,3 +19,6 @@ global using Microsoft.Extensions.Logging;
 global using Roshetta.DAL.Abstraction;
 global using Roshetta.BLL.Contract.DoctorSchedule;
 global using Roshetta.BLL.Contract.MedicalRecord;
+global using Roshetta.BLL.Contract.Doctor;
+
+

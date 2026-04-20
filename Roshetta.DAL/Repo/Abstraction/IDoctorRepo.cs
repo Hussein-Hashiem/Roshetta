@@ -3,7 +3,7 @@
     public interface IDoctorRepo
     {
         Task AddAsync(Doctor doctor);
-        IQueryable<Doctor> GetDoctorByUserId(string userId);
-
+        IQueryable<Doctor> GetDoctorByUserId(string userId, CancellationToken cancellationToken = default);
+        Task UpdateAsync(string userId, Doctor request);
     }
 }

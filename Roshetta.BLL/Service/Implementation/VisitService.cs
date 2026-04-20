@@ -60,13 +60,13 @@ namespace Roshetta.BLL.Service.Implementation
 
             if (visit.IsDeleted) return Result.Failure(VisitErrors.AlreadyDeleted);
 
-            if (await _userManager.IsInRoleAsync(user, "Doctor"))
+            if (await _userManager.IsInRoleAsync(user, DefaultRoles.Doctor))
             {
                 var doctor = _doctorRepo.GetDoctorByUserId(userId).FirstOrDefault();
                 if (doctor == null) return Result.Failure(DoctorErrors.NotFound);
                 if (visit.DoctorId != doctor.Id) return Result.Failure(VisitErrors.Unauthorized);
             }
-            else if (await _userManager.IsInRoleAsync(user, "Patient"))
+            else if (await _userManager.IsInRoleAsync(user, DefaultRoles.Patient))
             {
                 var patient = _patientRepo.GetPatientByUserId(userId).FirstOrDefault();
                 if (patient == null) return Result.Failure(PatientErrors.NotFound);
