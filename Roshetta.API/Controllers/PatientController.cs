@@ -12,7 +12,7 @@ namespace Roshetta.API.Controllers
         }
 
 
-        [HttpGet("")]
+        [HttpGet("Books")]
         public async Task<IActionResult> GetMyBooks(CancellationToken cancellation)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
