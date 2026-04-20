@@ -1,5 +1,3 @@
-using Roshetta.BLL.Contract.Patient;
-
 namespace Roshetta.BLL.Service.Implementation
 {
     public class VisitService : IVisitService

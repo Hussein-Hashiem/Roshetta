@@ -1,8 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-using Roshetta.DAL.Repo.Implementation;
-using System.Diagnostics;
-
-namespace Roshetta.BLL.Service.Implementation
+﻿namespace Roshetta.BLL.Service.Implementation
 {
     public class MedicalRecordService : IMedicalRecordService
     {

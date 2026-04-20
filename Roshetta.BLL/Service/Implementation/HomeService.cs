@@ -1,5 +1,3 @@
-using Roshetta.BLL.Contract.Profile;
-
 namespace Roshetta.BLL.Service.Implementation
 {
     public class HomeService : IHomeService

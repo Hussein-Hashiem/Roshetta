@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Roshetta.BLL.Contract
+namespace Roshetta.BLL.Contract.Patient
 {
     public record UpdatePatientRequestDto(
         string Name,

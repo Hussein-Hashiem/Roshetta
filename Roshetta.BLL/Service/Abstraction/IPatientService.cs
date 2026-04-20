@@ -1,5 +1,4 @@
-﻿using Roshetta.BLL.Contract;
-using Roshetta.BLL.Contract.DoctorSchedule;
+﻿using Roshetta.BLL.Contract.DoctorSchedule;
 using Roshetta.BLL.Contract.Profile;
 namespace Roshetta.BLL.Service.Abstraction
 {
