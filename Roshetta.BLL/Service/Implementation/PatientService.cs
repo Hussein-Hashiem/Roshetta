@@ -1,9 +1,5 @@
-﻿using Roshetta.BLL.Contract.Patient;
-using Roshetta.DAL.Database;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using Roshetta.BLL.Contract;
+using Roshetta.BLL.Contract.Profile;
 
 namespace Roshetta.BLL.Service.Implementation
 {
@@ -25,44 +21,43 @@ namespace Roshetta.BLL.Service.Implementation
             return Result.Success();
         }
 
-        public async Task<Result<IEnumerable<PatientDto>>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<Result<IEnumerable<ProfileResponseDto>>> GetAll(CancellationToken cancellationToken = default)
         {
             var patients = await _patientRepo.GetAll()
-                .Select(f => new PatientDto(
+                .Select(f => new ProfileResponseDto(
+                    f.UserId,
                     f.User.Name,
                     f.User.Image,
                     f.User.DateOfBirth,
-                    f.User.Gender.ToString()
+                    f.User.Gender
                 )).ToListAsync();
-            return Result.Success<IEnumerable<PatientDto>>(patients); ;
+            return Result.Success<IEnumerable<ProfileResponseDto>>(patients);
         }
 
-        public async Task<Result<PatientDto>> GetByIdAsync(string UserId, CancellationToken cancellationToken = default)
+
+        public async Task<Result<ProfileResponseDto>> GetProfileAsync(string userId, CancellationToken cancellationToken)
         {
-            var patient = await _patientRepo.GetPatientByUserId(UserId)
-                .Select(patient => new PatientDto(
+            var patient = await _patientRepo.GetPatientByUserId(userId).Select(patient => new ProfileResponseDto(
+                    patient.UserId,
                     patient.User.Name,
                     patient.User.PhoneNumber!,
                     patient.User.DateOfBirth,
-                    patient.User.Gender.ToString()
+                    patient.User.Gender
                 )).FirstOrDefaultAsync();
-
-            if(patient is null)
-                Result.Failure<PatientDto>(UserErrors.NotFouond);
-
-            return Result.Success<PatientDto>(patient!);
+            if (patient == null) return Result.Failure<ProfileResponseDto>(PatientErrors.NotFound);
+            return Result.Success<ProfileResponseDto>(patient!);
         }
 
-        public async Task<Result> UpdateAsync(string userId, PatientDto patientDto, CancellationToken cancellationToken = default)
+        public async Task<Result> UpdateAsync(string userId, UpdatePatientRequestDto request, CancellationToken cancellationToken = default)
         {
             var patient = new Patient()
             {
                 User = new ApplicationUser()
                 {
-                    Name = patientDto.Name,
-                    PhoneNumber = patientDto.PhoneNumber,
-                    DateOfBirth = patientDto.DateOfBirth,
-                    Gender = (patientDto.Gender.ToUpper() == "FEMALE" ? Gender.Female : Gender.Male)
+                    Name = request.Name,
+                    PhoneNumber = request.PhoneNumber,
+                    DateOfBirth = request.DateOfBirth,
+                    Gender = request.Gender
                 }
             };
 
