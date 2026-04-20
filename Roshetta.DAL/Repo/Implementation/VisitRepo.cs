@@ -24,12 +24,10 @@ namespace Roshetta.DAL.Repo.Implementation
                 );
         }
 
-        public IQueryable<Visit> GetAll()
+        public IQueryable<Visit> GetAll(int doctorId)
         {
             return _dbContext.Visits
-                .Where(v => !v.IsDeleted)
-                .Include(x => x.Patient)
-                .ThenInclude(x => x.User)
+                .Where(v => !v.IsDeleted && v.DoctorId == doctorId)
                 .AsNoTracking();
         }
 

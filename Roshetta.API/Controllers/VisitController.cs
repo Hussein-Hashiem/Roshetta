@@ -43,7 +43,9 @@ namespace Roshetta.API.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetAll(CancellationToken cancellation)
         {
-            var result = await _visitService.GetAllAsync(cancellation);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _visitService.GetAllAsync(userId!,cancellation);
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
