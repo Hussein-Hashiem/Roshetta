@@ -45,5 +45,26 @@ namespace Roshetta.BLL.Service.Implementation
 
             return Result.Success(doctor);
         }
+
+        public async Task<Result> UpdateProfileAsync(string userId, UpdateDoctorProfileDto request, CancellationToken cancellationToken = default)
+        {
+            var doctor = new Doctor()
+            {
+                Inof = request.Info,
+                Department = request.Department,
+                Price = request.Price,
+                Location = request.Location,
+                User = new ApplicationUser()
+                {
+                    Name = request.Name,
+                    PhoneNumber = request.PhoneNumber,
+                    DateOfBirth = request.DateOfBirth
+                }
+            };
+
+            await _doctorRepo.UpdateAsync(userId, doctor);
+
+            return Result.Success();
+        }
     }
 }

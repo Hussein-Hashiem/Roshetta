@@ -1,3 +1,5 @@
+using Roshetta.BLL.Contract.Doctor;
+
 namespace Roshetta.API.Controllers
 {
     [ApiController]
@@ -31,6 +33,16 @@ namespace Roshetta.API.Controllers
             var result = await _doctorService.GetProfileAsync(userId!, cancellation);
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
+
+        [HttpPut("doctor")]
+        public async Task<IActionResult> UpdateDoctorProfile([FromBody] UpdateDoctorProfileDto request, CancellationToken cancellationToken = default)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var result = await _doctorService.UpdateProfileAsync(userId!, request, cancellationToken);
+            
+            return result.IsSuccess ? NoContent() : result.ToProblem(); 
         }
     }
 }
