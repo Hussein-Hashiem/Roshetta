@@ -35,8 +35,6 @@ namespace Roshetta.DAL.Repo.Implementation
         {
             return _dbContext.Visits
                 .Where(v => v.Id == visitId && !v.IsDeleted)
-                .Include(x => x.Patient)
-                .ThenInclude(x => x.User)
                 .AsNoTracking();
         }
 
@@ -65,6 +63,13 @@ namespace Roshetta.DAL.Repo.Implementation
                     .Where(v => v.Id == visit.Id)
                     .ExecuteUpdateAsync(setter =>
                         setter.SetProperty(f => f.Status, visit.Status).SetProperty(f => f.IsDeleted, visit.IsDeleted));
+        }
+
+        public IQueryable<Visit> GetPatientVisit(int patientId)
+        {
+            return _dbContext.Visits
+                .Where(v => !v.IsDeleted && v.PatientId == patientId)
+                .AsNoTracking();
         }
     }
 }
