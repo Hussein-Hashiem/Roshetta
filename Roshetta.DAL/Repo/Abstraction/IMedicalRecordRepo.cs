@@ -2,10 +2,10 @@
 {
     public interface IMedicalRecordRepo
     {
-        Task AddSync (MedicalRecord medicalRecord, CancellationToken cancellationToken);
-        Task UpdateSync (MedicalRecord medicalRecord, CancellationToken cancellationToken);
-        Task DeleteSync (int id, CancellationToken cancellationToken);
-        IQueryable<MedicalRecord> GetAll ();
-        IQueryable<MedicalRecord> GetById (int id);
+        Task AddAsync (MedicalRecord medicalRecord, CancellationToken cancellationToken = default);
+        Task UpdateAsync (MedicalRecord medicalRecord, CancellationToken cancellationToken = default);
+        Task DeleteAsync (int id, CancellationToken cancellationToken = default);
+        IQueryable<MedicalRecord> GetAllPerPatientAsync(int PatientId, CancellationToken cancellationToken = default);
+        IQueryable<MedicalRecord> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     }
 }
