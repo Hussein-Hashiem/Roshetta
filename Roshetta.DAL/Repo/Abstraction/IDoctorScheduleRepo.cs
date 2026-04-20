@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Roshetta.DAL.Repo.Abstraction
+﻿namespace Roshetta.DAL.Repo.Abstraction
 {
     public interface IDoctorScheduleRepo
     {
@@ -11,5 +6,6 @@ namespace Roshetta.DAL.Repo.Abstraction
         Task AddDaysAsync(List<DoctorSchedule> doctorSchedules);
         IQueryable<DoctorSchedule> GetAllSchedulesForDoctor(int id);
         Task<int> GetMaxVisit(int doctorId, WeekDay day);
+        Task<bool> IsVacation(int doctorId, WeekDay day);
     }
 }
