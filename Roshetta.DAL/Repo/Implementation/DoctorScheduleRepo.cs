@@ -30,10 +30,15 @@
         {
             var maxVisit = await _context.DoctorSchedules
                 .Where(x => x.DoctorId == doctorId && x.Day == day)
-                .Select(x => (int)((x.EndTime - x.StartTime).TotalMinutes / x.AverageConsultationTime))
+                .Select(x => x.MaxVisit)
                 .FirstOrDefaultAsync();
 
             return maxVisit;
+        }
+
+        public async Task<bool> IsVacation(int doctorId, WeekDay day)
+        {
+            return await _context.DoctorSchedules.AnyAsync(x => x.DoctorId == doctorId && x.IsVacation);
         }
 
         public async Task UpdateAsync(DoctorSchedule doctorSchedule, int doctorId, CancellationToken cancellationToken)

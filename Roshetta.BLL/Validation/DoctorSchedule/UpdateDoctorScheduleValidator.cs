@@ -10,7 +10,7 @@ namespace Roshetta.BLL.Validation.DoctorSchedule
             .GreaterThan(0);
 
             RuleFor(x => x.EndTime)
-                .GreaterThan(x => x.StartTime)
+                .GreaterThanOrEqualTo(x => x.StartTime)
                 .When(x => !x.IsVacation);
 
             RuleFor(x => x.MaxVisits)
