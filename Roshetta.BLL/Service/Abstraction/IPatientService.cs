@@ -4,9 +4,9 @@ namespace Roshetta.BLL.Service.Abstraction
 {
     public interface IPatientService
     {
-        Task<Result<List<PatientDto>>> GetAll();
-        Task<Result<PatientDto>> GetById(int id);
-        Task<Result> AddAsync(string userId, PatientDto request, CancellationToken cancellationToken = default);
-        Task<Result> DeleteAync(int id, CancellationToken cancellationToken = default);
+        Task<Result<IEnumerable<PatientDto>>> GetAll(CancellationToken cancellationToken = default);
+        Task<Result<PatientDto>> GetByIdAsync(string UserId, CancellationToken cancellationToken = default);
+        Task<Result> DeleteAsync(string UserId, CancellationToken cancellationToken = default);
+        Task<Result> UpdateAsync(string userId, PatientDto patient, CancellationToken cancellationToken = default);
     }
 }

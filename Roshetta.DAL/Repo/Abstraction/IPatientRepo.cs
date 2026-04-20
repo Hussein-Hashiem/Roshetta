@@ -2,9 +2,11 @@
 {
     public interface IPatientRepo
     {
-        Task AddAsync(Patient patient, CancellationToken cancellationToken);
-        Task DeleteAsync(int id, CancellationToken cancellationToken);
-        IQueryable<Patient> GetAllAsync();
-        IQueryable<Patient> GetPatientByUserId(string userId);
+        Task AddAsync(Patient patient, CancellationToken cancellationToken = default);
+        Task UpdateAsync(string userId, Patient patient, CancellationToken cancellationToken = default);
+        Task DeleteAsync(string userId, CancellationToken cancellationToken = default);
+        IQueryable<Patient> GetAll(CancellationToken cancellationToken = default);
+        IQueryable<Patient> GetPatientByUserId(string userId, CancellationToken cancellationToken = default);
+        //IQueryable<Patient> GetUserByPatientId(string userId, CancellationToken cancellationToken = default);
     }
 }
