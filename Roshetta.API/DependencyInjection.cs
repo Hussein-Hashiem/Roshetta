@@ -49,6 +49,7 @@ namespace Roshetta.API
             services.AddScoped<IDoctorScheduleRepo, DoctorScheduleRepo>();
             services.AddScoped<IDepartmentRepo, DepartmentRepo>();
             services.AddScoped<IVisitRepo, VisitRepo>();
+            services.AddScoped<IMedicalRecordRepo, MedicalRecordRepo>();
             #endregion
 
             #region Service
@@ -56,6 +57,7 @@ namespace Roshetta.API
             services.AddScoped<IDoctorScheduleService, DoctorScheduleService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IVisitService, VisitService>();
+            services.AddScoped<IMedicalRecordService, MedicalRecordService>();
             #endregion
 
             return services;

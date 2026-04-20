@@ -18,5 +18,4 @@ global using Microsoft.AspNetCore.Authorization;
 global using Roshetta.DAL.Abstraction;
 global using System.Security.Claims;
 global using Roshetta.BLL.Contract.DoctorSchedule;
-
-
+global using Roshetta.BLL.Contract.MedicalRecord;

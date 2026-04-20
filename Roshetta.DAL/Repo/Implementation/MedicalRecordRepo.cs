@@ -22,10 +22,10 @@
                 .SetProperty(r => r.IsDeleted, true));
         }
 
-        public IQueryable<MedicalRecord> GetAllPerPatientAsync(int PatientId, CancellationToken cancellationToken = default)
+        public IQueryable<MedicalRecord> GetAllPerPatientAsync(string PatientId, CancellationToken cancellationToken = default)
         {
             return _context.MedicalRecords
-                .Where(m => !m.IsDeleted && m.Visit.PatientId == PatientId)
+                .Where(m => !m.IsDeleted && m.Visit.Patient.UserId == PatientId)
                 .AsNoTracking();
         }
         /// Shaaban, do some work here
