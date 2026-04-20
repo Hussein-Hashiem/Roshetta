@@ -37,7 +37,8 @@ namespace Roshetta.BLL.Service.Implementation
             if (isExist) return Result.Failure(VisitErrors.AlreadyBooked);
 
             var weekDay = Enum.Parse<WeekDay>(request.Date.DayOfWeek.ToString());
-            var maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id, weekDay);
+            var 
+                maxVisit = await _doctorScheduleRepo.GetMaxVisit(doctor.Id, weekDay);
             var bookedPatients = await _visitRepo.GetPatientCountOnDay(doctor.Id, request.Date);
 
             // ======= ya walliy elne3m ==========
