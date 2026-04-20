@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Roshetta.API.Controllers
+﻿namespace Roshetta.API.Controllers
 {
     public class MedicalRecordController : Controller
     {

@@ -20,5 +20,8 @@ global using Roshetta.DAL.Abstraction;
 global using Roshetta.BLL.Contract.DoctorSchedule;
 global using Roshetta.BLL.Contract.MedicalRecord;
 global using Roshetta.BLL.Contract.Doctor;
-
-
+global using Roshetta.BLL.Contract.Patient;
+global using Microsoft.CodeAnalysis;
+global using Roshetta.DAL.Repo.Implementation;
+global using Roshetta.BLL.Contract;
+global using Roshetta.BLL.Contract.Profile;

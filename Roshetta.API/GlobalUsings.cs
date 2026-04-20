@@ -9,14 +9,13 @@ global using Microsoft.AspNetCore.Identity;
 global using Roshetta.BLL.Service.Abstraction;
 global using Roshetta.BLL.Service.Implementation;
 global using Roshetta.DAL.Entities;
-global using Microsoft.AspNetCore.Identity.Data;
 global using Roshetta.API.Extensions;
 global using Roshetta.BLL.Contract.Authentication;
 global using System.Security.Claims;
 global using Roshetta.BLL.Contract.Visit;
 global using Microsoft.AspNetCore.Authorization;
 global using Roshetta.DAL.Abstraction;
-global using System.Security.Claims;
 global using Roshetta.BLL.Contract.DoctorSchedule;
+global using Roshetta.BLL.Contract.Doctor;
 
 

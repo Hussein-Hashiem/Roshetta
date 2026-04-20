@@ -1,4 +1,3 @@
-using Roshetta.BLL.Contract.Doctor;
 
 namespace Roshetta.API.Controllers
 {
