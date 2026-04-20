@@ -14,11 +14,9 @@ namespace Roshetta.BLL.Service.Implementation
             _visitrepo = visitrepo;
         }
 
-        public async Task<Result> AddAsync(MedicalRecordRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<Result> AddAsync(int visitid, MedicalRecordRequestDto request, CancellationToken cancellationToken = default)
         {
-            var md = await _medicalrecordrepo.GetByIdAsync(request.Id, cancellationToken).FirstOrDefaultAsync();
-            if (md != null) return Result.Failure(MedicalRecordErrors.AlreadyExists);
-            var visit = _visitrepo.GetById(request.VisitId);
+            var visit = _visitrepo.GetById(visitid);
             if (visit == null) return Result.Failure(VisitErrors.NotFound);
 
             var medicalrecord = new MedicalRecord()
@@ -26,7 +24,7 @@ namespace Roshetta.BLL.Service.Implementation
                 Diagnosis = request.Diagnosis,
                 Prescription = request.Prescription,
                 Notes = request.Notes,
-                VisitId = request.VisitId,
+                VisitId = visitid,
             };
 
             await _medicalrecordrepo.AddAsync(medicalrecord, cancellationToken);
@@ -51,7 +49,7 @@ namespace Roshetta.BLL.Service.Implementation
             return Result.Success<MedicalRecordResponseDto>(medicalrecord);
         }
 
-        public async Task<Result<IEnumerable<MedicalRecordResponseDto>>> GetMedicalRecordsPerPatientAsync(int PatientId, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<MedicalRecordResponseDto>>> GetMedicalRecordsPerPatientAsync(string PatientId, CancellationToken cancellationToken)
         {
             var medicalrecords = await _medicalrecordrepo
                 .GetAllPerPatientAsync(PatientId, cancellationToken)
