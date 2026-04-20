@@ -57,5 +57,15 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
+
+        [HttpGet("today")]
+        public async Task<IActionResult> GetAllPerDay(CancellationToken cancellationToken)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = await _visitService.GetAllPerDayAsync(userId!, cancellationToken);
+
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
     }
 }
