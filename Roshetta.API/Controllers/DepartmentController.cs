@@ -11,7 +11,7 @@
             _departmentService = departmentService;
         }
 
-        [HttpGet("")]
+        [HttpGet("getall")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             return Ok(await _departmentService.GetAll(cancellationToken));

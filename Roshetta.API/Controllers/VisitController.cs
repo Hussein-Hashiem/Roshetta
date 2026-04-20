@@ -10,6 +10,7 @@ namespace Roshetta.API.Controllers
         {
             _visitService = visitService;
         }
+
         [HttpPost("")]
         public async Task<IActionResult> Add([FromBody] AddVisitRequestDto request, CancellationToken cancellation)
         {
@@ -19,6 +20,7 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? Ok() : result.ToProblem();
         }
+
         [HttpPut("{visitId}")]
         public async Task<IActionResult> Update([FromRoute] int visitId, UpdateVisitRequestDto request, CancellationToken cancellation)
         {
@@ -37,6 +39,7 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? NoContent() : result.ToProblem();
         }
+
         [HttpGet("")]
         public async Task<IActionResult> GetAll(CancellationToken cancellation)
         {
@@ -44,6 +47,7 @@ namespace Roshetta.API.Controllers
 
             return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellation)
         {

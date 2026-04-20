@@ -5,7 +5,7 @@ namespace Roshetta.BLL.Validation.Visit
         public VisitRequestValidator()
         {
             RuleFor(x => x.Date)
-                .Must(date => date > DateOnly.FromDateTime(DateTime.Today));
+                .Must(date => date >= DateOnly.FromDateTime(DateTime.Today));
         }
     }
 }

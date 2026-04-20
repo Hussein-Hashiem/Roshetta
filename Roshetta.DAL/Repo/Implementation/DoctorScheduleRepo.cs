@@ -30,7 +30,7 @@
         {
             var maxVisit = await _context.DoctorSchedules
                 .Where(x => x.DoctorId == doctorId && x.Day == day)
-                .Select(x => (int)((x.EndTime - x.StartTime).TotalMinutes / x.AverageConsultationTime))
+                .Select(x => x.MaxVisit)
                 .FirstOrDefaultAsync();
 
             return maxVisit;
